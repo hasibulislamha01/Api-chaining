@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useContext } from "react";
+import { StateProviderContext } from "../../Components/ContextAPI/ContextProvider";
 
-const CreatePost = ({ selectedUser, setCreatedPost }) => {
+const CreatePost = ({ selectedUser }) => {
 
+    const {createdPost, setCreatedPost} = useContext(StateProviderContext) 
     // console.log(selectedUser);
 
     const {
@@ -19,7 +22,7 @@ const CreatePost = ({ selectedUser, setCreatedPost }) => {
             ...newPostData,
             userId
         }
-        console.log(newPost);
+        // console.log(newPost);
 
         axios.post(api, newPost)
             .then(response => setCreatedPost(response?.data))
@@ -27,10 +30,10 @@ const CreatePost = ({ selectedUser, setCreatedPost }) => {
     }
 
     return (
-        <div className="mt-6">
+        <section className="mt-6">
             {selectedUser &&
                 <div>
-                    <h1 className="text-center text-xl font-bold">Create a Post</h1>
+                    <h1 className="text-white text-center text-xl font-bold mb-6">Create a Post for user {selectedUser}</h1>
 
                     <form onSubmit={handleSubmit(handleAddPost)}
                         className="flex flex-col gap-4"
@@ -52,14 +55,21 @@ const CreatePost = ({ selectedUser, setCreatedPost }) => {
                                 placeholder="Post here"
                                 className="h-12 px-2 border border-slate-600 rounded-lg"
                             />
-                            {errors.post && <p className="text-red-500">{'post is required'}</p>}
+                            {errors.body && <p className="text-red-500">{'post is required'}</p>}
                         </div>
 
-                        <button className="bg-pink-400">Submit</button>
+                        <button
+                            type="submit"
+                            className="bg-gradient-to-r from-lightPink to-darkPink text-white px-6 py-3 font-semibold rounded-full hover:scale-95 transition-all duration-300"
+                        >Submit</button>
                     </form>
                 </div>
+
+
+
             }
-        </div>
+            
+        </section>
     );
 };
 

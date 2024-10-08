@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext } from "react";
+import { StateProviderContext } from "../Components/ContextAPI/ContextProvider";
 
 const UseGetUsers = () => {
 
-    const [userData, setUsersData] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
+    const {userData, setUsersData, loading, setLoading, error, setError} = useContext(StateProviderContext)
+
     const api = `https://jsonplaceholder.typicode.com/users`
     console.log(userData);
 

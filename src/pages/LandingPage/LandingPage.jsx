@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useContext } from "react";
 import SelectDropDown from "../../Components/SelectDropDown/SelectDropDown";
 import UseGetUsers from "../../CustomHooks/UseGetUsers";
 import CreatePost from "./CreatePost";
 import GetComments from "./GetComments";
+import { StateProviderContext } from "../../Components/ContextAPI/ContextProvider";
+import Visual from "../../Components/VisualPresentation/Visual";
 
 const LandingPage = () => {
 
-    const { userData, loading, getUsers, error } = UseGetUsers()
-    const [selectedUser, setSelectedUser] = useState(null)
-    const [createdPost, setCreatedPost] = useState(null);
-    console.log(selectedUser, createdPost);
+    const { userData, loading, getUsers } = UseGetUsers()
+    const { selectedUserId, createdPost, setSelectedUserId } = useContext(StateProviderContext)
+    console.log(selectedUserId, createdPost);
 
     const handleClick = () => {
         getUsers()
@@ -21,51 +22,54 @@ const LandingPage = () => {
         )
     })
 
-    const handleOptionChange = (selectedValue) => {
-        setSelectedUser(selectedValue.value)
-        // console.log(selectedValue.value);
+    const handleSetUserId = (selectedValue) => {
+        setSelectedUserId(selectedValue.value)
     }
 
     return (
-        <section className="min-h-screen container mx-auto">
+        <section className="min-h-screen container mx-auto space-y-10 pb-32">
 
             <h1 className="text-center">Api Chaining Dashboard</h1>
+            <section className="flex items-start justify-between">
 
 
-            <button
-                onClick={handleClick}
-                className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 font-semibold rounded-lg hover:scale-95 transition-all duration-100">
-                {loading ? 'Loading...' : 'Get Users'}
-            </button>
+                <section className="space-y-6">
+                    <section className="space-y-4">
+                        <button
+                            onClick={handleClick}
+                            className="bg-gradient-to-r from-lightPink to-darkPink text-white px-6 py-3 font-semibold rounded-full hover:scale-110 transition-all duration-300">
+                            {loading ? 'Loading...' : 'Get Users'}
+                        </button>
 
-            <div>
+                    </section>
 
-                <h1>We have {userData?.length}</h1>
+                    <section>
+                        {
+                            userData.length &&
+                            <SelectDropDown
+                                placeholder='Select A User Id'
+                                options={userOptions}
+                                onChange={handleSetUserId}
+                            />
+                        }
+                    </section>
 
-                {error && <p className="text-red-500 font-semibold text-lg">Error: {error.message}</p>}
+                    {/* if selected a user the following contents will be displayed */}
+                    <CreatePost
+                        selectedUser={selectedUserId}
+                    />
 
-                {userData?.length !== 0 && <p className="text-green-500 font-semibold">Succesfully fetched users</p>}
+                    <GetComments
+                        createdPost={createdPost}
+                    />
+                </section>
 
-            </div>
+                <section className="">
+                    <Visual />
+                </section>
 
-            {
-                userData.length &&
-                <SelectDropDown
-                    placeholder='Select A User Id'
-                    options={userOptions}
-                    onChange={handleOptionChange}
-                />
-            }
+            </section>
 
-            {/* if selected a user the following contents will be displayed */}
-            <CreatePost
-                selectedUser={selectedUser}
-                setCreatedPost={setCreatedPost}
-            />
-
-            <GetComments
-                createdPost={createdPost}
-            />
         </section>
     );
 };
