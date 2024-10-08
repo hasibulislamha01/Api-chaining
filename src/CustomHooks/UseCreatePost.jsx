@@ -11,7 +11,7 @@ const UseCreatePost = (newPost) => {
         .catch(error => console.error(error?.message))
     }
 
-    createPost()
+    return createPost
     
 };
 
