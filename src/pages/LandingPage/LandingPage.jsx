@@ -5,6 +5,7 @@ import CreatePost from "./CreatePost";
 import GetComments from "./GetComments";
 import { StateProviderContext } from "../../Components/ContextAPI/ContextProvider";
 import Visual from "../../Components/VisualPresentation/Visual";
+import VisualData from "./VisualData";
 
 const LandingPage = () => {
 
@@ -30,7 +31,7 @@ const LandingPage = () => {
         <section className="min-h-screen container mx-auto space-y-10 pb-32">
 
             <h1 className="text-center">Api Chaining Dashboard</h1>
-            <section className="flex items-start justify-between">
+            <section className="flex items-start justify-between gap-10">
 
 
                 <section className="space-y-6">
@@ -62,6 +63,10 @@ const LandingPage = () => {
                     <GetComments
                         createdPost={createdPost}
                     />
+                </section>
+
+                <section>
+                    <VisualData />
                 </section>
 
                 <section className="">
