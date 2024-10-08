@@ -5,6 +5,8 @@ const ContextProvider = ({ children }) => {
 
     const [userData, setUsersData] = useState([])
     const [loading, setLoading] = useState(false)
+    const [postLoading, setPostLoading] = useState(false)
+    const [commentsLoading, setCommentsLoading] = useState(false)
     const [selectedUserId, setSelectedUserId] = useState(null)
     const [createdPost, setCreatedPost] = useState(null);
     const [comments, setComments] = useState(null);
@@ -25,6 +27,10 @@ const ContextProvider = ({ children }) => {
         setComments,
         customPostId, 
         setCustomPostId,
+        postLoading,
+        setPostLoading,
+        commentsLoading,
+        setCommentsLoading,
         error, 
         setError
     }

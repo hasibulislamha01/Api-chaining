@@ -5,8 +5,8 @@ import { StateProviderContext } from "../../Components/ContextAPI/ContextProvide
 
 const CreatePost = ({ selectedUser }) => {
 
-    const {createdPost, setCreatedPost} = useContext(StateProviderContext) 
-    // console.log(selectedUser);
+    const { setCreatedPost, setPostLoading } = useContext(StateProviderContext)
+
 
     const {
         register,
@@ -17,6 +17,7 @@ const CreatePost = ({ selectedUser }) => {
     const api = `https://jsonplaceholder.typicode.com/posts`
 
     const handleAddPost = (newPostData) => {
+        setPostLoading(true)
         const userId = selectedUser
         const newPost = {
             ...newPostData,
@@ -25,7 +26,10 @@ const CreatePost = ({ selectedUser }) => {
         // console.log(newPost);
 
         axios.post(api, newPost)
-            .then(response => setCreatedPost(response?.data))
+            .then(response => {
+                setCreatedPost(response?.data)
+                setPostLoading(false)
+            })
             .catch(error => console.error(error?.message))
     }
 
@@ -68,7 +72,7 @@ const CreatePost = ({ selectedUser }) => {
 
 
             }
-            
+
         </section>
     );
 };

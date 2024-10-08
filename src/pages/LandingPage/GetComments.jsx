@@ -6,13 +6,14 @@ import { StateProviderContext } from "../../Components/ContextAPI/ContextProvide
 
 const GetComments = ({ createdPost }) => {
 
-    const {comments, setComments, customPostId, setCustomPostId} = useContext(StateProviderContext)
+    const { comments, setComments, customPostId, setCustomPostId, setCommentsLoading } = useContext(StateProviderContext)
     const [showCustomField, setShowCustomField] = useState(false)
     const postOptions = useGetPostOptions()
     // console.log(createdPost, comments?.length, postOptions);
-    console.log(comments);
-    const handleGetComments = async (postId) => {
+    // console.log(comments);
 
+    const handleGetComments = async (postId) => {
+        setCommentsLoading(true)
         const api = `https://jsonplaceholder.typicode.com/comments?postId=${postId}`
 
         console.log(api);
@@ -20,6 +21,7 @@ const GetComments = ({ createdPost }) => {
             const response = await axios.get(api)
             console.log(response)
             setComments(response?.data)
+            setCommentsLoading(false)
         } catch (error) {
             console.error(error)
         }
@@ -41,7 +43,7 @@ const GetComments = ({ createdPost }) => {
                             className="bg-slate-800 text-white px-6 py-2 rounded-lg hover:scale-95 transition-all duration-100"
                         >Get comments for the post id: {createdPost?.id}</button>
                         {comments?.length === 0 &&
-                            
+
                             <p className="py-2 text-red-500">No Comments available for the post with post id {createdPost?.id} </p>
                         }
                     </div>

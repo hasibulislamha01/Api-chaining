@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { StateProviderContext } from "../../Components/ContextAPI/ContextProvider";
 import MakeJsonFormat from "../../Components/JsonViews/CommentsJson";
+import Skeleton from "../../Components/Skeleton/Skeleton";
 
 const VisualData = () => {
-    const { userData, createdPost, comments } = useContext(StateProviderContext)
+    const { userData, createdPost, comments, postLoading, commentsLoding } = useContext(StateProviderContext)
     return (
         <div className="space-y-5">
             {
@@ -15,19 +16,25 @@ const VisualData = () => {
 
             }
             {
-                createdPost &&
-                <MakeJsonFormat
-                    title={'Created Post'}
-                    data={createdPost}
-                />
+                postLoading ?
+                    <Skeleton />
+                    :
+                    createdPost &&
+                    <MakeJsonFormat
+                        title={'Created Post'}
+                        data={createdPost}
+                    />
 
             }
             {
-                comments &&
-                <MakeJsonFormat
-                    title={'Comments'}
-                    data={comments}
-                />
+                commentsLoding ?
+                    <Skeleton />
+                    :
+                    comments &&
+                    <MakeJsonFormat
+                        title={'Comments'}
+                        data={comments}
+                    />
 
             }
         </div>
